@@ -1,15 +1,12 @@
 <?php
-
 $conn = mysqli_connect('localhost','root',123456,'management_file');
 $sql_query = "SELECT *
               FROM files";
 $query_result = mysqli_query($conn,$sql_query);
-
 $files = mysqli_fetch_all($query_result,MYSQLI_ASSOC);
 
 //Upload files
 if(isset($_POST['save'])){
-
     $filename = $_FILES['myfile']['name'];
     $destination = 'uploads/' . $filename;
     $extension = pathinfo($filename ,PATHINFO_EXTENSION);
@@ -40,15 +37,10 @@ if(isset($_GET['file_id'])){
                   FROM files
                   WHERE id = $id ";
    $result_file = mysqli_query($conn,$query_file);
-
    $file = mysqli_fetch_assoc($result_file);
    $filePath = "uploads/".$file['name'];
-
-   var_dump($filePath);
-
-
+  
    if(file_exists($filePath)){
-    
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');
     header('Content-Disposition: attachment; filename=' . basename($filePath));
@@ -56,18 +48,14 @@ if(isset($_GET['file_id'])){
     header('Cache-Control: must-revalidate');
     header('Pragma: public');
     header('Content-Length: ' . filesize('uploads/' . $file['name']));
-
-     ob_clean();
-     flush();
-
-     readfile('uploads/'.$file['name']);
-
-     $newCount = $file['downloads'] + 1;
-     $queryCount = "UPDATE files
-                SET downloads = $newCount
-                WHERE id=$id";
-
-     mysqli_query($conn,$queryCount);
+    ob_clean();
+    flush();
+    readfile('uploads/'.$file['name']);
+    $newCount = $file['downloads'] + 1;
+    $queryCount = "UPDATE files
+                   SET downloads = $newCount
+                   WHERE id=$id";
+    mysqli_query($conn,$queryCount);
      exit;
    }
 }
