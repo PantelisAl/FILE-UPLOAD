@@ -1,5 +1,5 @@
 <?php
-$conn = mysqli_connect('localhost','root',123456,'management_file');
+$conn = mysqli_connect('localhost','root',,'management_file');
 $sql_query = "SELECT *
               FROM files";
 $query_result = mysqli_query($conn,$sql_query);
